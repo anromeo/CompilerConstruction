@@ -3,3 +3,6 @@ classesx/
 classesy/
 classesz/
 bin/
+.project
+.metadata
+lib/
