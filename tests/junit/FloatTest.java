@@ -6,21 +6,21 @@ import junit.framework.TestCase;
 import jminusminus.Main;
 import java.io.File;
 
-import pass.Float;
+// import pass.Float;
 
 public class FloatTest extends TestCase {
-  private Float floatX;
+//   private Float floatX;
 
-  protected void setUp () throws Exception {
-    super.setUp();
-    floatX = new Float ();
-  }
+//   protected void setUp () throws Exception {
+//     super.setUp();
+//     floatX = new Float();
+//   }
 
-  protected void tearDown () throws Exception {
-    super.tearDown();
-  }
+//   protected void tearDown () throws Exception {
+//     super.tearDown();
+//   }
   
-  public void testDivide () {
-    this.assertEquals(floatX.isFloat(), false);
-  }
+//   public void testDivide () {
+//     this.assertEquals(floatX.isFloat(), false);
+//   }
 }

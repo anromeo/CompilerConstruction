@@ -1,7 +1,7 @@
 package pass;
 
 public class FloatLiteral {
-  public boolean isfloat(int x, int y) {
-    return true; // return x * 1.0;
+  public float isfloat(float x, float y) {
+    return x * y; // return x * 1.0;
   }
 }

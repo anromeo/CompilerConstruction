@@ -1,7 +1,7 @@
 package pass;
 
 public class Float {
-  public boolean isFloat () {
+  public float isFloat() {
     return true;
   }
 }
