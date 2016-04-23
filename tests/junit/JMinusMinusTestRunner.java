@@ -24,7 +24,7 @@ public class JMinusMinusTestRunner {
         // suite.addTestSuite(DivisionTest.class);
         // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(LongLiteralTest.class);
-        suite.addTestSuite(FloatLiteralTest.class);
+        // suite.addTestSuite(FloatLiteralTest.class);
         // suite.addTestSuite(DoubleLiteralTest.class);
         // suite.addTestSuite(AndAssignTest.class);
         // suite.addTestSuite(GreaterOrEqualTest.class);
