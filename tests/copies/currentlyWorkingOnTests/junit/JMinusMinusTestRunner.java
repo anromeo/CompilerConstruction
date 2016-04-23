@@ -16,15 +16,15 @@ public class JMinusMinusTestRunner {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        suite.addTestSuite(HelloWorldTest.class);
-        suite.addTestSuite(FactorialTest.class);
-        suite.addTestSuite(GCDTest.class);
-        suite.addTestSuite(SeriesTest.class);
-        suite.addTestSuite(ClassesTest.class);
-        suite.addTestSuite(DivisionTest.class);
+        // suite.addTestSuite(HelloWorldTest.class);
+        // suite.addTestSuite(FactorialTest.class);
+        // suite.addTestSuite(GCDTest.class);
+        // suite.addTestSuite(SeriesTest.class);
+        // suite.addTestSuite(ClassesTest.class);
+        // suite.addTestSuite(DivisionTest.class);
         // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(LongLiteralTest.class);
-        // suite.addTestSuite(FloatLiteralTest.class);
+        suite.addTestSuite(FloatLiteralTest.class);
         // suite.addTestSuite(DoubleLiteralTest.class);
         // suite.addTestSuite(AndAssignTest.class);
         // suite.addTestSuite(GreaterOrEqualTest.class);
