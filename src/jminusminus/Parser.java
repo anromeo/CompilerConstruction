@@ -656,6 +656,8 @@ public class Parser {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
+        } else if (have(SWITCH)) {
+      	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
@@ -664,6 +666,8 @@ public class Parser {
                 mustBe(SEMI);
                 return new JReturnStatement(line, expr);
             }
+        } else if (have(BREAK)) {
+            return new JBreak(line);
         } else if (have(SEMI)) {
             return new JEmptyStatement(line);
         } else { // Must be a statementExpression
@@ -671,6 +675,44 @@ public class Parser {
             mustBe(SEMI);
             return statement;
         }
+    }
+    
+    /**
+     * Parse a switch statemnt.
+     * 
+     * <pre>
+     *   statement ::= switchLabel {switchLabel} {blockStatement}
+     *   
+     *   switchLabel ::= case expression : | default :
+     * </pre>
+     * 
+     * @return an AST for a statement.
+     */
+    private ArrayList<JSwitchBlockStatement> switchBlockStatementGroup() {
+        int line = scanner.token().line();
+        ArrayList<JSwitchBlockStatement> switchBlockStatements = new ArrayList<JSwitchBlockStatement>();
+        mustBe(LCURLY);
+        while (!see(RCURLY) && !see(EOF)) {
+        	if (have(CASE)) {
+        		JExpression theExpression = expression();
+        		mustBe(COLON);
+        		ArrayList<JStatement> statements = new ArrayList<JStatement>();
+        		while(!see(CASE) && !see(DEFAULT) && !see(RCURLY)) {
+        			statements.add(blockStatement());
+        		}
+        		switchBlockStatements.add(new JSwitchBlockStatement(line, TokenKind.CASE, theExpression, statements));
+        	} else {
+        		mustBe(DEFAULT);
+        		mustBe(COLON);
+        		ArrayList<JStatement> statements = new ArrayList<JStatement>();
+        		while(!see(CASE) && !see(DEFAULT) && !see(RCURLY)) {
+        			statements.add(blockStatement());
+        		}
+        		switchBlockStatements.add(new JSwitchBlockStatement(line, TokenKind.DEFAULT, null, statements));
+        	}           
+        }
+        mustBe(RCURLY);
+        return switchBlockStatements;
     }
 
     /**
@@ -1012,6 +1054,11 @@ public class Parser {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
             return new JPlusAssignOp(line, lhs, assignmentExpression());
+        } else if (have(TERNARY)){
+        	JExpression condition = lhs;
+        	JExpression thenPart = assignmentExpression();
+        	mustBe(COLON);        	       	
+        	return new JTernaryExpression(line, condition, thenPart, assignmentExpression());
         } else if (have(AND_ASSIGN)) {
             return new JAndAssignOp(line, lhs, assignmentExpression());
         } else if (have(MINUS_ASSIGN)) {

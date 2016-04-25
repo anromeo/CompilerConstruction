@@ -29,7 +29,7 @@ enum TokenKind {
             MULT_ASSIGN("*="), LEFT_BIT_SHIFT_ASSIGN("<<="), LEFT_BIT_SHIFT("<<"),
             MINUS_ASSIGN("-="), VOLATILE("volatile"), TRY("try"), SYNCHRONIZED("synchronized"),
             SWITCH("switch"), STRICTFP("strictfp"), IMPLEMENTS("implements"), FINAL("final"),
-            DOUBLE("double"), CATCH("catch"), CASE("case"),
+            DOUBLE("double"), CATCH("catch"), CASE("case"), COLON(":"),
             TRANSIENT("transient"), NATIVE("native"), GOTO("goto"), DO("do"), BYTE("byte"),
             THROWS("throws"), SHORT("short"), LONG("long"), FOR("for"), DEFAULT("default"),
             BREAK("break"), THROW("throw"), INTERFACE("interface"), FLOAT("float"),
