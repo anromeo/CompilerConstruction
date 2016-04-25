@@ -53,7 +53,6 @@ abstract class JComparison extends JBooleanBinaryExpression {
  * The AST node for a greater-than (>) expression. Implements short-circuiting
  * branching.
  */
-
 class JGreaterThanOp extends JComparison {
 
     /**
@@ -95,11 +94,26 @@ class JGreaterThanOp extends JComparison {
 
 }
 
+class JLessThanOp extends JComparison {
+
+    public JLessThanOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, "<", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+        rhs.codegen(output);
+        lhs.codegen(output);
+        output
+                .addBranchInstruction(onTrue ? IF_ICMPGT : IF_ICMPLE,
+                        targetLabel);
+    }
+
+}
+
 /**
  * The AST node for a less-than-or-equal-to (<=) expression. Implements
  * short-circuiting branching.
  */
-
 class JLessEqualOp extends JComparison {
 
     /**
@@ -134,6 +148,22 @@ class JLessEqualOp extends JComparison {
     public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
         lhs.codegen(output);
         rhs.codegen(output);
+        output
+                .addBranchInstruction(onTrue ? IF_ICMPLE : IF_ICMPGT,
+                        targetLabel);
+    }
+
+}
+
+class JGreatEqualOp extends JComparison {
+
+    public JGreatEqualOp(int line, JExpression lhs, JExpression rhs) {
+        super(line, ">=", lhs, rhs);
+    }
+
+    public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+        rhs.codegen(output);
+        lhs.codegen(output);
         output
                 .addBranchInstruction(onTrue ? IF_ICMPLE : IF_ICMPGT,
                         targetLabel);

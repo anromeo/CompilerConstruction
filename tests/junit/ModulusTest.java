@@ -6,21 +6,23 @@ import junit.framework.TestCase;
 import jminusminus.Main;
 import java.io.File;
 
-import pass.MinusAssign;
+import pass.Modulus;
 
-public class MinusAssignTest extends TestCase {
-  private MinusAssign minusassignX;
+public class ModulusTest extends TestCase {
+  private Modulus modulusX;
 
   protected void setUp () throws Exception {
     super.setUp();
-    minusassignX = new MinusAssign ();
+    modulusX = new Modulus ();
   }
 
   protected void tearDown () throws Exception {
     super.tearDown();
   }
   
-  public void testMinusassign () {
-    this.assertEquals(minusassignX.minusassign(25, 5), 20);
+  public void testModulus () {
+    this.assertEquals(modulusX.modulus(7, 5), 2);
+    this.assertEquals(modulusX.modulus(2, 1), 0);
+    this.assertEquals(modulusX.modulus(107, 10), 7);    
   }
 }

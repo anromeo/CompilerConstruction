@@ -16,42 +16,36 @@ public class JMinusMinusTestRunner {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
-        // suite.addTestSuite(HelloWorldTest.class);
-        // suite.addTestSuite(FactorialTest.class);
-        // suite.addTestSuite(GCDTest.class);
-        // suite.addTestSuite(SeriesTest.class);
-        // suite.addTestSuite(ClassesTest.class);
-        // suite.addTestSuite(DivisionTest.class);
+        suite.addTestSuite(HelloWorldTest.class);
+        suite.addTestSuite(FactorialTest.class);
+        suite.addTestSuite(GCDTest.class);
+        suite.addTestSuite(SeriesTest.class);
+        suite.addTestSuite(ClassesTest.class);
+        suite.addTestSuite(DivisionTest.class);
+        // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(LongLiteralTest.class);
         // suite.addTestSuite(FloatLiteralTest.class);
-        // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(DoubleLiteralTest.class);
-        suite.addTestSuite(AndAssignTest.class);
-        suite.addTestSuite(MinusAssignTest.class);
-        suite.addTestSuite(DivAssignTest.class);
-        suite.addTestSuite(MultAssignTest.class);
-        // GTE >=
-        suite.addTestSuite(ModulusTest.class);
-        suite.addTestSuite(ModAssignTest.class);
-        suite.addTestSuite(GreaterOrEqualTest.class);
-        suite.addTestSuite(NotEqualTest.class);
-        suite.addTestSuite(LessThanTest.class);
-
-        // Parsed with No Codegen
-        // suite.addTestSuite(OrTest.class);
-        // suite.addTestSuite(BitOrTest.class);
-        // suite.addTestSuite(BitOrAssignTest.class);
-        // suite.addTestSuite(BitXorTest.class);
-        // suite.addTestSuite(BitXorAssignTest.class);
-        // suite.addTestSuite(RightBitShiftTest.class);
-        // suite.addTestSuite(LeftBitShiftTest.class);
-        // suite.addTestSuite(ZeroFillRightBitShiftTest.class);
-
-        // suite.addTestSuite(RightBitShiftAssignTest.class);
-        // suite.addTestSuite(LeftBitShiftAssignTest.class);
+        // suite.addTestSuite(AndAssignTest.class);
+        // suite.addTestSuite(GreaterOrEqualTest.class);
         // suite.addTestSuite(ZeroFillRightBitShiftAssignTest.class);
-
-        // RESERVED WORDS
+        // suite.addTestSuite(ZeroFillRightBitShiftTest.class);
+        // suite.addTestSuite(RightBitShiftAssignTest.class);
+        // suite.addTestSuite(DivAssignTest.class);
+        // suite.addTestSuite(OrTest.class);
+        // suite.addTestSuite(BitOrAssignTest.class);
+        // suite.addTestSuite(BitOrTest.class);
+        // suite.addTestSuite(RightBitShiftTest.class);
+        // suite.addTestSuite(BitXorAssignTest.class);
+        // suite.addTestSuite(ModAssignTest.class);
+        // suite.addTestSuite(NotEqualTest.class);
+        // suite.addTestSuite(BitXorTest.class);
+        // suite.addTestSuite(ModulusTest.class);
+        // suite.addTestSuite(LessThanTest.class);
+        // suite.addTestSuite(MultAssignTest.class);
+        // suite.addTestSuite(LeftBitShiftAssignTest.class);
+        // suite.addTestSuite(LeftBitShiftTest.class);
+        // suite.addTestSuite(MinusAssignTest.class);
         // suite.addTestSuite(VolatileTest.class);
         // suite.addTestSuite(TryTest.class);
         // suite.addTestSuite(SynchronizedTest.class);

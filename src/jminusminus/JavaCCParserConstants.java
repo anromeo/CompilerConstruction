@@ -59,6 +59,10 @@ public interface JavaCCParserConstants {
   int STRING_LITERAL = 58;
   int ESC = 59;
   int ERROR = 60;
+  int FLOAT = 61;
+  int FLOAT_LITERAL = 62;
+  int DOUBLE = 63;
+  int DOUBLE_LITERAL = 64;
 
   int DEFAULT = 0;
 

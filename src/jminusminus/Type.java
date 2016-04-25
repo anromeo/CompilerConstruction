@@ -45,6 +45,9 @@ class Type {
     // T.ZULLO 20160422
     public final static Type FLOAT = typeFor(float.class);
 
+    // T.ZULLO 20160422
+    public final static Type DOUBLE = typeFor(double.class);
+
     /** java.lang.Integer. */
     public final static Type BOXED_INT = typeFor(java.lang.Integer.class);
 
@@ -415,14 +418,16 @@ class Type {
      *            internal representation whose descriptor is required.
      * @return the JVM descriptor.
      */
-
     private static String descriptorFor(Class<?> cls) {
-        return cls == null ? "V" : cls == void.class ? "V"
+        String returnValue = cls == null ? "V" : cls == void.class ? "V"
                 : cls.isArray() ? "[" + descriptorFor(cls.getComponentType())
                         : cls.isPrimitive() ? (cls == int.class ? "I"
-                                : cls == char.class ? "C"
-                                        : cls == boolean.class ? "Z" : "?")
+                                        : cls == char.class ? "C"
+                                        : cls == boolean.class ? "Z"
+                                        : cls == float.class ? "F"
+                                        : cls == double.class ? "D" : "?")
                                 : "L" + cls.getName().replace('.', '/') + ";";
+        return returnValue;
     }
 
     /**

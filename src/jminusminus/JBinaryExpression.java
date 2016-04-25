@@ -273,3 +273,74 @@ class JDivideOp extends JBinaryExpression {
         output.addNoArgInstruction(IDIV);
     }
 }
+
+class JModulusOp extends JBinaryExpression {
+    public JModulusOp(int line, JExpression lhs, JExpression rhs) {
+        super(line , "%" , lhs , rhs);
+    }
+    public JExpression analyze (Context context) {
+        lhs = (JExpression)lhs.analyze(context);
+        rhs = (JExpression)rhs.analyze(context);
+        lhs.type().mustMatchExpected (line (), Type.INT);
+        rhs.type().mustMatchExpected (line (), Type.INT);
+        type = Type.INT;
+        return this;
+    }
+    public void codegen(CLEmitter output) {
+        lhs.codegen(output);
+        lhs.codegen(output);        
+        rhs.codegen(output);
+        output.addNoArgInstruction(IDIV);
+        rhs.codegen(output);
+        output.addNoArgInstruction(IMUL);
+        output.addNoArgInstruction(ISUB);
+    }
+}
+
+class JRightBitShiftOp extends JBinaryExpression {
+    public JRightBitShiftOp(int line, JExpression lhs, JExpression rhs) {
+        super(line , ">>" , lhs , rhs);
+    }
+    public JExpression analyze (Context context) {
+        lhs = (JExpression)lhs.analyze(context);
+        rhs = (JExpression)rhs.analyze(context);
+        lhs.type().mustMatchExpected (line (), Type.INT);
+        rhs.type().mustMatchExpected (line (), Type.INT);
+        type = Type.INT;
+        return this;
+    }
+    public void codegen(CLEmitter output) {
+    }
+}
+
+class JLeftBitShiftOp extends JBinaryExpression {
+    public JLeftBitShiftOp(int line, JExpression lhs, JExpression rhs) {
+        super(line , "<<" , lhs , rhs);
+    }
+    public JExpression analyze (Context context) {
+        lhs = (JExpression)lhs.analyze(context);
+        rhs = (JExpression)rhs.analyze(context);
+        lhs.type().mustMatchExpected (line (), Type.INT);
+        rhs.type().mustMatchExpected (line (), Type.INT);
+        type = Type.INT;
+        return this;
+    }
+    public void codegen(CLEmitter output) {
+    }
+}
+
+class JZeroFillRightBitShiftOp  extends JBinaryExpression {
+    public JZeroFillRightBitShiftOp(int line, JExpression lhs, JExpression rhs) {
+        super(line , ">>>" , lhs , rhs);
+    }
+    public JExpression analyze (Context context) {
+        lhs = (JExpression)lhs.analyze(context);
+        rhs = (JExpression)rhs.analyze(context);
+        lhs.type().mustMatchExpected (line (), Type.INT);
+        rhs.type().mustMatchExpected (line (), Type.INT);
+        type = Type.INT;
+        return this;
+    }
+    public void codegen(CLEmitter output) {
+    }
+}

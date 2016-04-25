@@ -21,6 +21,9 @@ public class OrTest extends TestCase {
   }
   
   public void testOr () {
-    this.assertEquals(orX.or(true, false), true);
+    // this.assertEquals(orX.or(true, true), true);
+    // this.assertEquals(orX.or(true, false), true);
+    // this.assertEquals(orX.or(false, true), true);
+    this.assertEquals(orX.or(false, false), false);
   }
 }

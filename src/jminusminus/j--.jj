@@ -148,6 +148,8 @@ TOKEN:
   < ABSTRACT: "abstract" >
 | < BOOLEAN: "boolean" >
 | < CHAR: "char" >
+| < FLOAT: "float" >
+| < DOUBLE: "double" >
 | < CLASS: "class" >
 | < ELSE: "else" >
 | < EXTENDS: "extends" >
@@ -215,6 +217,8 @@ TOKEN:
 TOKEN:
 {
   < INT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)*) >
+| < FLOAT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "." | "F" | "f") >
+| < FLOAT_LITERAL: ("0" | <NON_ZERO_DIGIT> (<DIGIT>)* | "." | "D" | "d") >
 | < CHAR_LITERAL: "'" (<ESC> | ~["'","\\","\n","\r"]) "'" >
 | < STRING_LITERAL: "\"" (<ESC> | ~["\"","\\","\n","\r"])* "\"" >   
 | < #ESC: "\\" ["n","t","b","r","f","\\","'","\""] >
@@ -1016,6 +1020,7 @@ private Type basicType(): {
         <BOOLEAN> { type = Type.BOOLEAN; } |
         <CHAR> { type = Type.CHAR; } |
         <INT> { type = Type.INT; }
+        <FLOAT> { type = Type.FLOAT; }
     } 
     catch ( ParseException e ) { 
         recoverFromError( new int[] { SEMI, EOF }, e ); 
@@ -1663,6 +1668,10 @@ private JExpression literal(): {
     try {
         <INT_LITERAL> 
         { expr = new JLiteralInt( token.beginLine, token.image ); } | 
+        <FLOAT_LITERAL> 
+        { expr = new JLiteralFloat( token.beginLine, token.image ); } | 
+        <DOUBLE_LITERAL> 
+        { expr = new JLiteralDouble( token.beginLine, token.image ); } | 
         <CHAR_LITERAL> 
         { expr = new JLiteralChar( token.beginLine, token.image ); } |
         <STRING_LITERAL> 

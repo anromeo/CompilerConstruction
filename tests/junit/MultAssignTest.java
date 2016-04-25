@@ -20,7 +20,15 @@ public class MultAssignTest extends TestCase {
     super.tearDown();
   }
   
-  public void testMultassign () {
+  public void testMultIntAssign () {
     this.assertEquals(multassignX.multassign(2, 4), 8);
+    this.assertEquals(multassignX.multassign(4, 4), 16);
+    this.assertEquals(multassignX.multassign(7, -2), -14);
   }
+
+  // public void testMultFloAssign () {
+  //   this.assertEquals(multassignX.multassign(2f, 4.0f), 8.0f);
+  //   this.assertEquals(multassignX.multassign(4.0f, 4.0f), 16.0f);
+  //   this.assertEquals(multassignX.multassign(7.0f, -2.0f), -14.0f);
+  // }
 }

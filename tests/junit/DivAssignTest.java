@@ -22,5 +22,7 @@ public class DivAssignTest extends TestCase {
   
   public void testDivassign () {
     this.assertEquals(divassignX.divassign(10, 5), 2);
+    this.assertEquals(divassignX.divassign(5, 2), 2);
+    this.assertEquals(divassignX.divassign(81, 9), 9);
   }
 }
