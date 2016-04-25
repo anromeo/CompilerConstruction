@@ -21,6 +21,6 @@ public class DoubleTest extends TestCase {
   }
   
   public void testDouble () {
-    this.assertEquals(doubleX.isDouble(42), 42);
+    this.assertEquals(doubleX.isDouble(42.0), 42.0);
   }
 }

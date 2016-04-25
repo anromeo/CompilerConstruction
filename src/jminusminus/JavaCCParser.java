@@ -22,7 +22,6 @@ class JavaCCParser implements JavaCCParserConstants {
      * @param name with an ambiguos part (possibly).
      * @return ambiguous part or null.
      */
-
     private AmbiguousName ambiguousPart( TypeName name ) {
         String qualifiedName = name.toString();
         int lastDotIndex = qualifiedName.lastIndexOf( '.' );
@@ -349,6 +348,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case ABSTRACT:
         case BOOLEAN:
         case CHAR:
+        case FLOAT:
+        case DOUBLE:
         case INT:
         case PRIVATE:
         case PROTECTED:
@@ -401,6 +402,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case BOOLEAN:
         case CHAR:
         case INT:
+        case FLOAT:
+        case DOUBLE:
         case IDENTIFIER:
           type = type();
           break;
@@ -433,6 +436,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case BOOLEAN:
         case CHAR:
         case INT:
+        case FLOAT:
+        case DOUBLE:
         case IDENTIFIER:
           type = type();
                             line = token.beginLine;
@@ -467,6 +472,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case BOOLEAN:
         case CHAR:
         case FALSE:
+        case FLOAT:
+        case DOUBLE:
         case IF:
         case INT:
         case NEW:
@@ -485,6 +492,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case IDENTIFIER:
         case INT_LITERAL:
         case CHAR_LITERAL:
+        case FLOAT_LITERAL:
+        case DOUBLE_LITERAL:
         case STRING_LITERAL:
           ;
           break;
@@ -528,6 +537,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case IDENTIFIER:
         case INT_LITERAL:
         case CHAR_LITERAL:
+        case FLOAT_LITERAL:
+        case DOUBLE_LITERAL:
         case STRING_LITERAL:
           statement = statement();
           break;
@@ -595,6 +606,8 @@ class JavaCCParser implements JavaCCParserConstants {
         case IDENTIFIER:
         case INT_LITERAL:
         case CHAR_LITERAL:
+        case FLOAT_LITERAL:
+        case DOUBLE_LITERAL:
         case STRING_LITERAL:
           expr = expression();
           break;
@@ -622,6 +635,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case IDENTIFIER:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         // Must be a statementExpression
                 statement = statementExpression();
@@ -648,6 +663,8 @@ class JavaCCParser implements JavaCCParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BOOLEAN:
       case CHAR:
+      case FLOAT:
+      case DOUBLE:
       case INT:
       case IDENTIFIER:
         aParameter = formalParameter();
@@ -796,6 +813,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case IDENTIFIER:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         initializer = expression();
         break;
@@ -833,6 +852,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case IDENTIFIER:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         anInitializer = variableInitializer(expected.componentType());
               initials.add( anInitializer );
@@ -882,6 +903,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case IDENTIFIER:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         anExpression = expression();
                                           args.add( anExpression );
@@ -921,6 +944,8 @@ class JavaCCParser implements JavaCCParserConstants {
         switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
         case BOOLEAN:
         case CHAR:
+        case FLOAT:
+        case DOUBLE:
         case INT:
           type = basicType();
           break;
@@ -953,6 +978,12 @@ class JavaCCParser implements JavaCCParserConstants {
         jj_consume_token(INT);
                 type = Type.INT;
         break;
+      case FLOAT:
+        jj_consume_token(FLOAT);
+                type = Type.FLOAT;      
+      case DOUBLE:
+        jj_consume_token(DOUBLE);
+                type = Type.DOUBLE;      
       default:
         jj_la1[25] = jj_gen;
         jj_consume_token(-1);
@@ -991,7 +1022,46 @@ class JavaCCParser implements JavaCCParserConstants {
               type = new ArrayTypeName( type );
         }
         break;
-      case IDENTIFIER:
+      case FLOAT:
+        type = basicType();
+        jj_consume_token(LBRACK);
+        jj_consume_token(RBRACK);
+                            type = new ArrayTypeName( type );
+        label_11:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case LBRACK:
+            ;
+            break;
+          default:
+            jj_la1[26] = jj_gen;
+            break label_11;
+          }
+          jj_consume_token(LBRACK);
+          jj_consume_token(RBRACK);
+              type = new ArrayTypeName( type );
+        }
+        break;
+      case DOUBLE:
+        type = basicType();
+        jj_consume_token(LBRACK);
+        jj_consume_token(RBRACK);
+                            type = new ArrayTypeName( type );
+        label_11:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
+          case LBRACK:
+            ;
+            break;
+          default:
+            jj_la1[26] = jj_gen;
+            break label_11;
+          }
+          jj_consume_token(LBRACK);
+          jj_consume_token(RBRACK);
+              type = new ArrayTypeName( type );
+        }
+        break;      case IDENTIFIER:
         type = qualifiedIdentifier();
         label_12:
         while (true) {
@@ -1290,6 +1360,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case IDENTIFIER:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         expr = simpleUnaryExpression();
         break;
@@ -1345,6 +1417,8 @@ class JavaCCParser implements JavaCCParserConstants {
           case IDENTIFIER:
           case INT_LITERAL:
           case CHAR_LITERAL:
+          case FLOAT_LITERAL:
+          case DOUBLE_LITERAL:
           case STRING_LITERAL:
             expr = postfixExpression();
             break;
@@ -1505,6 +1579,8 @@ class JavaCCParser implements JavaCCParserConstants {
       case TRUE:
       case INT_LITERAL:
       case CHAR_LITERAL:
+      case FLOAT_LITERAL:
+      case DOUBLE_LITERAL:
       case STRING_LITERAL:
         expr = literal();
         break;
@@ -1560,6 +1636,8 @@ class JavaCCParser implements JavaCCParserConstants {
       switch ((jj_ntk==-1)?jj_ntk():jj_ntk) {
       case BOOLEAN:
       case CHAR:
+      case DOUBLE:
+      case FLOAT:
       case INT:
         type = basicType();
         break;
@@ -1674,6 +1752,14 @@ class JavaCCParser implements JavaCCParserConstants {
       case CHAR_LITERAL:
         jj_consume_token(CHAR_LITERAL);
           expr = new JLiteralChar( token.beginLine, token.image );
+        break;
+      case FLOAT_LITERAL:
+        jj_consume_token(FLOAT_LITERAL);
+          expr = new JLiteralFloat( token.beginLine, token.image );
+        break;
+      case DOUBLE_LITERAL:
+        jj_consume_token(DOUBLE_LITERAL);
+          expr = new JLiteralDouble( token.beginLine, token.image );
         break;
       case STRING_LITERAL:
         jj_consume_token(STRING_LITERAL);
@@ -1942,6 +2028,17 @@ class JavaCCParser implements JavaCCParserConstants {
     return false;
   }
 
+  final private boolean jj_3R_1000() {
+    if (jj_scan_token(FLOAT_LITERAL)) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_1001() {
+    if (jj_scan_token(DOUBLE_LITERAL)) return true;
+    return false;
+  }
+
+
   final private boolean jj_3R_51() {
     Token xsp;
     xsp = jj_scanpos;
@@ -1972,20 +2069,24 @@ class JavaCCParser implements JavaCCParserConstants {
     Token xsp;
     xsp = jj_scanpos;
     if (jj_3R_89()) {
-    jj_scanpos = xsp;
-    if (jj_3R_90()) {
-    jj_scanpos = xsp;
-    if (jj_3R_91()) {
-    jj_scanpos = xsp;
-    if (jj_3R_92()) {
-    jj_scanpos = xsp;
-    if (jj_3R_93()) {
-    jj_scanpos = xsp;
-    if (jj_3R_94()) return true;
-    }
-    }
-    }
-    }
+      jj_scanpos = xsp;
+      if (jj_3R_90()) {
+        jj_scanpos = xsp;
+        if (jj_3R_91()) {
+          jj_scanpos = xsp;
+          if (jj_3R_92()) {
+            jj_scanpos = xsp;
+            if (jj_3R_93()) {
+              jj_scanpos = xsp;
+                if (jj_3R_94()) {
+                    if (jj_3R_1000()) {
+                      if (jj_3R_1001()) return true;
+                    }
+                }
+                }
+            }
+          }
+        }
     }
     return false;
   }
@@ -2256,6 +2357,16 @@ class JavaCCParser implements JavaCCParserConstants {
     return false;
   }
 
+  final private boolean jj_3R_2000() {
+    if (jj_scan_token(FLOAT)) return true;
+    return false;
+  }
+
+  final private boolean jj_3R_2001() {
+    if (jj_scan_token(DOUBLE)) return true;
+    return false;
+  }
+
   final private boolean jj_3R_99() {
     if (jj_scan_token(LBRACK)) return true;
     if (jj_scan_token(RBRACK)) return true;
@@ -2325,7 +2436,11 @@ class JavaCCParser implements JavaCCParserConstants {
     jj_scanpos = xsp;
     if (jj_3R_31()) {
     jj_scanpos = xsp;
-    if (jj_3R_32()) return true;
+    if (jj_3R_32()) {
+      if (jj_3R_2000()) {
+        if (jj_3R_2001()) return true;
+      }
+    }
     }
     }
     return false;

@@ -22,5 +22,7 @@ public class LessThanTest extends TestCase {
   
   public void testLessthan () {
     this.assertEquals(lessthanX.lessthan(0, 42), true);
+    this.assertEquals(lessthanX.lessthan(42, 42), false);
+    this.assertEquals(lessthanX.lessthan(64, 42), false);
   }
 }

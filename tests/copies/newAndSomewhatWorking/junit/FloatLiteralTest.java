@@ -6,21 +6,21 @@ import junit.framework.TestCase;
 import jminusminus.Main;
 import java.io.File;
 
-import pass.ModAssign;
+import pass.FloatLiteral;
 
-public class ModAssignTest extends TestCase {
-  private ModAssign modassignX;
+public class FloatLiteralTest extends TestCase {
+  private FloatLiteral floatliteralX;
 
   protected void setUp () throws Exception {
     super.setUp();
-    modassignX = new ModAssign ();
+    floatliteralX = new FloatLiteral ();
   }
 
   protected void tearDown () throws Exception {
     super.tearDown();
   }
   
-  public void testModassign () {
-    this.assertEquals(modassignX.modassign(4, 3), 1);
+  public void testIsfloat () {
+    this.assertEquals(floatliteralX.giveMefloat(), 1);
   }
 }

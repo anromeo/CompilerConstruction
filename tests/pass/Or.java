@@ -2,6 +2,6 @@ package pass;
 
 public class Or {
   public boolean or(boolean x, boolean y) {
-    return x; // return x || y
+      return x || y;
   }
 }

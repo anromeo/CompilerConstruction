@@ -6,21 +6,21 @@ import junit.framework.TestCase;
 import jminusminus.Main;
 import java.io.File;
 
-import pass.NotEqual;
+import pass.DoubleLiteral;
 
-public class NotEqualTest extends TestCase {
-  private NotEqual notequalX;
+public class DoubleLiteralTest extends TestCase {
+  private DoubleLiteral doubleliteralX;
 
   protected void setUp () throws Exception {
     super.setUp();
-    notequalX = new NotEqual ();
+    doubleliteralX = new DoubleLiteral();
   }
 
   protected void tearDown () throws Exception {
     super.tearDown();
   }
   
-  public void testNotequal () {
-    this.assertEquals(notequalX.notequal(0, 42), true);
+  public void testIsdouble () {
+    this.assertEquals(doubleliteralX.isdouble(42.0), 42.0);
   }
 }

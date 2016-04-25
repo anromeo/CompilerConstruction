@@ -21,7 +21,9 @@ enum TokenKind {
             "&&"), LE("<="), LNOT("!"), MINUS("-"), PLUS_ASSIGN("+="), STAR("*"), DIV("/"), LPAREN(
             "("), RPAREN(")"), LCURLY("{"), RCURLY("}"), LBRACK("["), RBRACK(
             "]"), SEMI(";"), COMMA(","), DOT("."), IDENTIFIER("<IDENTIFIER>"), INT_LITERAL(
-            "<INT_LITERAL>"), CHAR_LITERAL("<CHAR_LITERAL>"), LONG_LITERAL("<LONG_LITERAL>"), FLOAT_LITERAL("<FLOAT_LITERAL>"), DOUBLE_LITERAL("<DOUBLE_LITERAL>"), AND_ASSIGN("&="), GTE(">="), ZERO_FILL_RIGHT_BIT_SHIFT_ASSIGN(">>>="), ZERO_FILL_RIGHT_BIT_SHIFT(">>>"), RIGHT_BIT_SHIFT_ASSIGN(">>="), DIV_ASSIGN("/="), OR("||"),
+            "<INT_LITERAL>"), CHAR_LITERAL("<CHAR_LITERAL>"), LONG_LITERAL("<LONG_LITERAL>"),
+            FLOAT_LITERAL("<FLOAT_LITERAL>"), DOUBLE_LITERAL("<DOUBLE_LITERAL>"), AND_ASSIGN("&="),
+            GTE(">="), ZERO_FILL_RIGHT_BIT_SHIFT_ASSIGN(">>>="), ZERO_FILL_RIGHT_BIT_SHIFT(">>>"), RIGHT_BIT_SHIFT_ASSIGN(">>="), DIV_ASSIGN("/="), OR("||"),
             BIT_OR_ASSIGN("|="), BIT_OR("|"), RIGHT_BIT_SHIFT(">>"), BIT_XOR_ASSIGN("^="),
             MOD_ASSIGN("%="), NOT_EQUAL("!="), BIT_XOR("^"), MODULUS("%"), LT("<"),
             MULT_ASSIGN("*="), LEFT_BIT_SHIFT_ASSIGN("<<="), LEFT_BIT_SHIFT("<<"),
@@ -32,7 +34,7 @@ enum TokenKind {
             THROWS("throws"), SHORT("short"), LONG("long"), FOR("for"), DEFAULT("default"),
             BREAK("break"), THROW("throw"), INTERFACE("interface"), FLOAT("float"),
             CONTINUE("continue"), FINALLY("finally"), CONSTANT("const"), BITWISE_NOT("~"),
-            TERNARY("?"), STRING_LITERAL("<STRING_LITERAL>");
+            TERNARY("?"), STRING_LITERAL("<STRING_LITERAL>"), AND("&");
 
     /** The token's string representation. */
     private String image;
