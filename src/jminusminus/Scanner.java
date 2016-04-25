@@ -183,6 +183,9 @@ class Scanner {
         case ';':
             nextCh();
             return new TokenInfo(SEMI, line);
+        case ':':
+            nextCh();
+            return new TokenInfo(COLON, line);
         case ',':
             nextCh();
             return new TokenInfo(COMMA, line);
@@ -299,11 +302,14 @@ class Scanner {
             // return new TokenInfo(BITWISE_NOT, line);
             reportScannerError("Operator ~ is not supported in j--.");
             return getNextToken();            
+//        case '?':
+//            nextCh();
+//            reportScannerError("Operator ? is not supported in j--.");
+//            return getNextToken();
+            // return new TokenInfo(TERNARY, line);
         case '?':
             nextCh();
-            reportScannerError("Operator ? is not supported in j--.");
-            return getNextToken();
-            // return new TokenInfo(TERNARY, line);
+            return new TokenInfo(TERNARY, line);
         case '%':
             nextCh();
             if (ch == '=') {
