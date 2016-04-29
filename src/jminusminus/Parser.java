@@ -564,9 +564,13 @@ public class Parser {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
                 ArrayList<JFormalParameter> params = formalParameters();
+                ArrayList<TypeName> throwsIdentifiers = null;
+                if (have(THROWS)) {
+                	throwsIdentifiers = qualifiedIdentifiers();
+                }
                 JBlock body = have(SEMI) ? null : block();
                 memberDecl = new JMethodDeclaration(line, mods, name, type,
-                        params, body);
+                        params, throwsIdentifiers, body);
             } else {
                 type = type();
                 if (seeIdentLParen()) {
@@ -574,9 +578,13 @@ public class Parser {
                     mustBe(IDENTIFIER);
                     String name = scanner.previousToken().image();
                     ArrayList<JFormalParameter> params = formalParameters();
+                    ArrayList<TypeName> throwsIdentifiers = null;
+                    if (have(THROWS)) {
+                    	throwsIdentifiers = qualifiedIdentifiers();
+                    }
                     JBlock body = have(SEMI) ? null : block();
                     memberDecl = new JMethodDeclaration(line, mods, name, type,
-                            params, body);
+                            params, throwsIdentifiers, body);
                 } else {
                     // Field
                     memberDecl = new JFieldDeclaration(line, mods,
@@ -695,6 +703,10 @@ public class Parser {
                 mustBe(SEMI);
                 return new JReturnStatement(line, expr);
             }
+        } else if (have(THROW)) {
+        	JExpression expr = expression();
+            mustBe(SEMI);
+            return new JThrowStatement(line, expr);
         } else if (have(BREAK)) {
             return new JBreak(line);
         } else if (have(SEMI)) {
@@ -767,6 +779,14 @@ public class Parser {
         } while (have(COMMA));
         mustBe(RPAREN);
         return parameters;
+    }
+    
+    private ArrayList<TypeName> qualifiedIdentifiers() {
+        ArrayList<TypeName> identifiers = new ArrayList<TypeName>();
+        do {
+        	identifiers.add(qualifiedIdentifier());
+        } while (have(COMMA));
+        return identifiers;
     }
 
     /**

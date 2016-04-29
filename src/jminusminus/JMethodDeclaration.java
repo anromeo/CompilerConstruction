@@ -3,6 +3,7 @@
 package jminusminus;
 
 import java.util.ArrayList;
+
 import static jminusminus.CLConstants.*;
 
 /**
@@ -23,6 +24,9 @@ class JMethodDeclaration
 
     /** The formal parameters. */
     protected ArrayList<JFormalParameter> params;
+    
+    /** The qualified identifiers for throws. */
+    protected ArrayList<TypeName> throwsIdentifiers;
 
     /** Method body. */
     protected JBlock body;
@@ -64,7 +68,7 @@ class JMethodDeclaration
 
     public JMethodDeclaration(int line, ArrayList<String> mods,
         String name, Type returnType,
-        ArrayList<JFormalParameter> params, JBlock body)
+        ArrayList<JFormalParameter> params, ArrayList<TypeName> throwsIdentifiers, JBlock body)
 
     {
         super(line);
@@ -72,6 +76,7 @@ class JMethodDeclaration
         this.name = name;
         this.returnType = returnType;
         this.params = params;
+        this.throwsIdentifiers = throwsIdentifiers;
         this.body = body;
         this.isAbstract = mods.contains("abstract");
         this.isStatic = mods.contains("static");
@@ -243,6 +248,19 @@ class JMethodDeclaration
                 p.indentLeft();
             }
             p.println("</FormalParameters>");
+        }
+        if (throwsIdentifiers != null) {
+	        p.printf("<ThrowsClause line=\"%d\" >\n", line());
+	        p.indentRight();
+	        p.println("<QualifiedIdentifiers>");        
+	        for (TypeName qid : throwsIdentifiers) {
+	            p.indentRight();
+                p.printf("<Identifier name=\"%s\"/>\n", qid.toString());	            
+	            p.indentLeft();
+	        }
+	        p.println("</QualifiedIdentifiers>");     
+	        p.indentLeft();
+	        p.println("</ThrowsClause>");
         }
         if (body != null) {
             p.println("<Body>");
