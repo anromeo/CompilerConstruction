@@ -643,6 +643,7 @@ public class Parser {
      *   statement ::= block
      *               | IF parExpression statement [ELSE statement]
      *               | WHILE parExpression statement 
+     *               | FOR parExpression statement
      *               | RETURN [expression] SEMI
      *               | SEMI 
      *               | statementExpression SEMI
@@ -665,7 +666,35 @@ public class Parser {
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
         } else if (have(SWITCH)) {
-      	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
+          	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
+        } else if (have(FOR)) {
+            mustBe(LPAREN);
+            Type type = basicType();
+            JVariableDeclarator variable = variableDeclarator(type);
+            if(have(COLON)) {
+                mustBe(IDENTIFIER);
+                String name = scanner.previousToken().image();
+                mustBe(RPAREN);
+                mustBe(LCURLY);
+                JStatement statement = statement();
+                mustBe(RCURLY);
+                return new JForStatement(line, variable, name, statement);
+            } else {
+                mustBe(SEMI);
+                JExpression conditional = expression();
+                mustBe(SEMI);
+                JExpression increment;
+                if (see(INC) || see(DEC)) {
+                    increment = expression();
+                } else {
+                    increment = postfixExpression();
+                }
+                mustBe(RPAREN);
+                mustBe(LCURLY);
+                JStatement statement = statement();
+                mustBe(RCURLY);
+                return new JForStatement(line, variable, conditional, increment, statement);
+            }
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
@@ -1261,7 +1290,7 @@ public class Parser {
      * 
      * <pre>
      *   unaryExpression ::= INC unaryExpression // level 1
-     *                     | MINUS unaryExpression
+     *                     | DEC unaryExpression
      *                     | simpleUnaryExpression
      * </pre>
      * 
@@ -1272,7 +1301,7 @@ public class Parser {
         int line = scanner.token().line();
         if (have(INC)) {
             return new JPreIncrementOp(line, unaryExpression());
-        } else if (have(MINUS)) {
+        } else if (have(DEC)) {
             return new JNegateOp(line, unaryExpression());
         } else {
             return simpleUnaryExpression();
@@ -1327,6 +1356,9 @@ public class Parser {
         JExpression primaryExpr = primary();
         while (see(DOT) || see(LBRACK)) {
             primaryExpr = selector(primaryExpr);
+        }
+        while (have(INC)) {
+            primaryExpr = new JPostIncrementOp(line, primaryExpr);            
         }
         while (have(DEC)) {
             primaryExpr = new JPostDecrementOp(line, primaryExpr);
