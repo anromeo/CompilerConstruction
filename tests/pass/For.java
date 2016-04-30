@@ -4,7 +4,8 @@ public class For {
   public int testFor(int returnInt) {
       int j = 0;
       for (int i = 0; i < 5; i++) {
-          j += i;
+          j = i * j;
+          j = i + j;
           // if (j == 10) {
           //     break;
           // }

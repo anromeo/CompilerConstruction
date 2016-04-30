@@ -8,14 +8,12 @@ import static jminusminus.CLConstants.*;
  * The AST node for a while-statement.
  */
 
-class JForStatement extends JStatement {
+class JTryStatement extends JStatement {
 
-    private JStatement body;
-    private JVariableDeclarator variable;
-    private JExpression condition;
-    private JExpression increment;
-    private String name;
-    private boolean foreach = false;
+    private JStatement tryBlock;
+    private JStatement catchBlock;
+    private JFormalParameter catchParameter;
+    private JStatement finallyBlock;
 
     /**
      * Construct an AST node for a while-statement given its line number, the
@@ -28,22 +26,15 @@ class JForStatement extends JStatement {
      * @param body
      *            the body.
      */
-    public JForStatement(int line, JVariableDeclarator assignment, JExpression condition, JExpression increment, JStatement body) {
+    public JTryStatement(int line, JStatement tryBlock, JFormalParameter catchParameter, JStatement catchBlock, JStatement finallyBlock)
+    {
         super(line);
-        this.variable = assignment;
-        this.condition = condition;
-        this.increment = increment;
-        this.body = body;
+        this.tryBlock = tryBlock;
+        this.catchBlock = catchBlock;
+        this.catchParameter = catchParameter;
+        this.finallyBlock = finallyBlock;
     }
 
-
-    public JForStatement(int line, JVariableDeclarator variable, String name, JStatement body) {
-        super(line);
-        this.variable = variable;
-        this.name = name;
-        this.body = body;
-        foreach = true;
-    }
     /**
      * Analysis involves analyzing the test, checking its type and analyzing the
      * body statement.
@@ -53,7 +44,7 @@ class JForStatement extends JStatement {
      * @return the analyzed (and possibly rewritten) AST subtree.
      */
 
-    public JForStatement analyze(Context context) {
+    public JTryStatement analyze(Context context) {
         // condition = condition.analyze(context);
         // condition.type().mustMatchExpected(line(), Type.BOOLEAN);
         // body = (JStatement) body.analyze(context);
@@ -93,37 +84,30 @@ class JForStatement extends JStatement {
      */
 
     public void writeToStdOut(PrettyPrinter p) {
-        if (!foreach) {
-            p.printf("<JForStatement line=\"%d\">\n", line());
+        p.printf("<JTryStatement line=\"%d\">\n", line());
             p.indentRight();
-            p.printf("<TestExpression>\n");
-            p.indentRight();
-            variable.writeToStdOut(p);
-            condition.writeToStdOut(p);
-            increment.writeToStdOut(p);
+                p.printf("<TryBlock>\n");
+                    p.indentRight();
+                        tryBlock.writeToStdOut(p);
+                    p.indentLeft();
+                p.printf("</TryBlock>\n");
+                p.printf("<CatchParameter>\n");
+                    p.indentRight();
+                        catchParameter.writeToStdOut(p);
+                    p.indentLeft();
+                p.printf("</CatchParameter>\n");
+                p.printf("<CatchBlock>\n");
+                    p.indentRight();
+                        catchBlock.writeToStdOut(p);
+                    p.indentLeft();
+                p.printf("</CatchBlock>\n");
+                p.printf("<FinallyBlock>\n");
+                    p.indentRight();
+                        finallyBlock.writeToStdOut(p);
+                    p.indentLeft();
+                p.printf("</FinallyBlock>\n");
             p.indentLeft();
-            p.printf("</TestExpression>\n");
-            p.printf("<Body>\n");
-            p.indentRight();
-            body.writeToStdOut(p);
-            p.indentLeft();
-            p.printf("</Body>\n");
-            p.indentLeft();
-            p.printf("</JForStatement>\n");
-        } else {
-            p.printf("<JForStatement line=\"%d\">\n", line());
-            p.indentRight();
-            variable.writeToStdOut(p);
-            p.printf("<IterateVariable name=\"%s\">\n", name);
-            p.indentLeft();
-            p.printf("<Body>\n");
-            p.indentRight();
-            body.writeToStdOut(p);
-            p.indentLeft();
-            p.printf("</Body>\n");
-            p.indentLeft();
-            p.printf("</JForStatement>\n");
-        }
+        p.printf("</JTryStatement>\n");
     }
 
 }

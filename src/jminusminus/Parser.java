@@ -675,9 +675,7 @@ public class Parser {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
                 mustBe(RPAREN);
-                mustBe(LCURLY);
-                JStatement statement = statement();
-                mustBe(RCURLY);
+                JStatement statement = block();
                 return new JForStatement(line, variable, name, statement);
             } else {
                 mustBe(SEMI);
@@ -690,11 +688,21 @@ public class Parser {
                     increment = postfixExpression();
                 }
                 mustBe(RPAREN);
-                mustBe(LCURLY);
-                JStatement statement = statement();
-                mustBe(RCURLY);
+                JStatement statement = block();
                 return new JForStatement(line, variable, conditional, increment, statement);
             }
+        } else if (have(TRY)) {
+            JStatement tryBlock = block();
+            mustBe(CATCH);
+            mustBe(LPAREN);
+            JFormalParameter formalParameter = formalParameter();
+            mustBe(RPAREN);
+            JStatement catchBlock = block();
+            JStatement finallyBlock = null;
+            if (have(FINALLY)) {
+                finallyBlock = block();
+            }
+            return new JTryStatement(line, tryBlock, formalParameter, catchBlock, finallyBlock);
         } else if (have(RETURN)) {
             if (have(SEMI)) {
                 return new JReturnStatement(line, null);
@@ -718,6 +726,8 @@ public class Parser {
         }
     }
     
+
+
     /**
      * Parse a switch statemnt.
      * 
@@ -960,6 +970,24 @@ public class Parser {
         return args;
     }
 
+
+    private boolean seeSpecialType() {
+        if (see(EXCEPTION)) {
+            return true;
+        }
+        return false;
+    }
+
+    private Type specialType() {
+        if (have(EXCEPTION)) {
+            return Type.EXCEPTION;
+        } else {
+            reportParserError("Type sought where %s found", scanner.token()
+                    .image());
+            return Type.ANY;
+        }
+    }
+
     /**
      * Parse a type.
      * 
@@ -970,10 +998,11 @@ public class Parser {
      * 
      * @return an instance of Type.
      */
-
     private Type type() {
         if (seeReferenceType()) {
             return referenceType();
+        } else if (seeSpecialType()) {
+            return specialType();
         }
         return basicType();
     }
