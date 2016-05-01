@@ -681,7 +681,7 @@ public class Parser {
           	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
         } else if (have(FOR)) {
             mustBe(LPAREN);
-            Type type = basicType();
+            Type type = type();
             JVariableDeclarator variable = variableDeclarator(type);
             if(have(COLON)) {
                 mustBe(IDENTIFIER);

@@ -21,6 +21,6 @@ public class ForTest extends TestCase {
   }
   
   public void testFor () {
-    this.assertEquals(forX.testFor(4), 4);
+    this.assertEquals(forX.testFor(5), 15);
   }
 }

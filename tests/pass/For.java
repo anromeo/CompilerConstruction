@@ -1,10 +1,9 @@
 package pass;
 
 public class For {
-  public int testFor(int returnInt) {
+  public int testFor(int testInt) {
       int j = 0;
-      for (int i = 0; i < 5; i++) {
-          j = i * j;
+      for (int i = 0; i < testInt; ++i) {
           j = i + j;
           // if (j == 10) {
           //     break;

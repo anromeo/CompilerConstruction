@@ -56,6 +56,8 @@ class JForStatement extends JStatement {
     public JForStatement analyze(Context context) {
         // condition = condition.analyze(context);
         // condition.type().mustMatchExpected(line(), Type.BOOLEAN);
+        // condition = condition.analyze(context);
+        // condition.type().mustMatchExpected(line(), Type.BOOLEAN);
         // body = (JStatement) body.analyze(context);
         return this;
     }
@@ -69,10 +71,12 @@ class JForStatement extends JStatement {
      */
 
     public void codegen(CLEmitter output) {
-        // // Need two labels
+
+        // Need two labels
         // String test = output.createLabel();
         // String out = output.createLabel();
 
+        // variable.codegen(output);
         // // Branch out of the loop on the test condition
         // // being false
         // output.addLabel(test);
@@ -80,6 +84,7 @@ class JForStatement extends JStatement {
 
         // // Codegen body
         // body.codegen(output);
+        // increment.codegen(output);
 
         // // Unconditional jump back up to test
         // output.addBranchInstruction(GOTO, test);
