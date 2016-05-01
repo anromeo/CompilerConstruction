@@ -812,9 +812,18 @@ public class Parser {
     private JFormalParameter formalParameter() {
         int line = scanner.token().line();
         Type type = type();
+        boolean isArity = false;
+        if (see(ELLIPSE)) {
+            mustBe(ELLIPSE);
+            isArity = true;
+        } 
         mustBe(IDENTIFIER);
         String name = scanner.previousToken().image();
-        return new JFormalParameter(line, name, type);
+        if (isArity) {
+            return new JFormalParameter(line, name, type, true);
+        } else {
+            return new JFormalParameter(line, name, type);
+        }
     }
 
     /**

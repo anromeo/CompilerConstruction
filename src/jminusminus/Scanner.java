@@ -419,6 +419,14 @@ class Scanner {
             return new TokenInfo(STRING_LITERAL, buffer.toString(), line);
         case '.':
             nextCh();
+            if (ch == '.') {
+                nextCh();
+                if (ch == '.') {
+                    nextCh();
+                    return new TokenInfo(ELLIPSE, line);
+                }
+            }
+            nextCh();
             return new TokenInfo(DOT, line);
         case EOFCH:
             return new TokenInfo(EOF, line);
