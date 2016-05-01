@@ -35,7 +35,7 @@ enum TokenKind {
             BREAK("break"), THROW("throw"), INTERFACE("interface"), FLOAT("float"),
             CONTINUE("continue"), FINALLY("finally"), CONSTANT("const"), BITWISE_NOT("~"),
             TERNARY("?"), STRING_LITERAL("<STRING_LITERAL>"), AND("&"), EXCEPTION("Exception"),
-            ELLIPSE("...");
+            ELLIPSE("..."), UNTIL("until");
 
     /** The token's string representation. */
     private String image;
