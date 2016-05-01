@@ -108,6 +108,7 @@ class Scanner {
         reserved.put(THROWS.image(), THROWS);
         reserved.put(TRANSIENT.image(), TRANSIENT);
         reserved.put(TRY.image(), TRY);
+        reserved.put(UNTIL.image(), UNTIL);
         // Prime the pump.
         nextCh();
     }

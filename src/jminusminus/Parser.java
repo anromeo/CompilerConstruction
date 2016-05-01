@@ -643,6 +643,7 @@ public class Parser {
      *   statement ::= block
      *               | IF parExpression statement [ELSE statement]
      *               | WHILE parExpression statement 
+     *               | SWITCH parExpression { switchBlockStatementGroup }
      *               | FOR parExpression statement
      *               | RETURN [expression] SEMI
      *               | SEMI 
@@ -665,7 +666,18 @@ public class Parser {
             JExpression test = parExpression();
             JStatement statement = statement();
             return new JWhileStatement(line, test, statement);
-        } else if (have(SWITCH)) {
+        } else if (have(DO)) {
+        	JStatement statement = statement();
+        	mustBe(UNTIL);
+        	JExpression test = parExpression();
+ //           if (have(UNTIL)) {            	
+//            } else {
+//            	mustBe(WHILE)
+//            } 
+        	
+
+            return new JDoUntilStatement(line, test, statement);
+        }else if (have(SWITCH)) {
           	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
         } else if (have(FOR)) {
             mustBe(LPAREN);
