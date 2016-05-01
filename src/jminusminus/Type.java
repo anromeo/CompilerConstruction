@@ -48,6 +48,8 @@ class Type {
     // T.ZULLO 20160422
     public final static Type DOUBLE = typeFor(double.class);
 
+    public final static Type EXCEPTION = typeFor(java.lang.Exception.class);
+
     /** java.lang.Integer. */
     public final static Type BOXED_INT = typeFor(java.lang.Integer.class);
 
