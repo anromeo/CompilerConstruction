@@ -24,6 +24,8 @@ import java.util.Hashtable;
 
 class Type {
 
+    private static boolean arityVariable = false;
+
     /** The Type's internal (Java) representation. * */
     private Class<?> classRep;
 
@@ -78,6 +80,15 @@ class Type {
 
     /** The "any" type (denotes wild expressions). */
     public final static Type ANY = new Type(null);
+
+
+    public void setIsArityVariable(boolean b) {
+        arityVariable = b;
+    }
+
+    public static boolean isArityVariable() {
+        return arityVariable;
+    }
 
     /**
      * Construct a Type representation for a type from its Java (Class)
@@ -367,16 +378,36 @@ class Type {
 
     public static boolean argTypesMatch(Class<?>[] argTypes1,
             Class<?>[] argTypes2) {
-        if (argTypes1.length != argTypes2.length) {
-            return false;
-        }
-        for (int i = 0; i < argTypes1.length; i++) {
-            if (!Type.descriptorFor(argTypes1[i]).equals(
-                    Type.descriptorFor(argTypes2[i]))) {
-                return false;
+        if (argTypes1.length == argTypes2.length) {
+            for (int i = 0; i < argTypes1.length; i++) {
+                if (!Type.descriptorFor(argTypes1[i]).equals(
+                        Type.descriptorFor(argTypes2[i]))) {
+                    return false;
+                }
             }
+            return true;
+        } else if (arityVariable) {
+            boolean returnValue = true;
+            int j = 0;
+            int lengthOfArgTypes2 = argTypes2.length;
+            for (int i = 0; i < argTypes1.length; i++) {
+                if (Type.isArityVariable()) {
+                    while (j < lengthOfArgTypes2 &&
+                        !Type.descriptorFor(argTypes1[i]).equals(
+                            Type.descriptorFor(argTypes2[j]))) {
+                        j++;
+                    }
+                } else {
+                    if (j < lengthOfArgTypes2 &&
+                        !Type.descriptorFor(argTypes1[i]).equals(
+                            Type.descriptorFor(argTypes2[j]))) {
+                        returnValue = false;
+                    }
+                }
+            }
+            return returnValue;
         }
-        return true;
+        return false;
     }
 
     /**

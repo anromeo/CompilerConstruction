@@ -40,6 +40,7 @@ class JFormalParameter extends JAST {
         super(line);
         this.name = name;
         this.type = type;
+        type.setIsArityVariable(true);
         this.isArityParameter = true;    
     }
 
