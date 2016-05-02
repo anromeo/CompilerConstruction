@@ -670,12 +670,6 @@ public class Parser {
         	JStatement statement = statement();
         	mustBe(UNTIL);
         	JExpression test = parExpression();
- //           if (have(UNTIL)) {            	
-//            } else {
-//            	mustBe(WHILE)
-//            } 
-        	
-
             return new JDoUntilStatement(line, test, statement);
         }else if (have(SWITCH)) {
           	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
