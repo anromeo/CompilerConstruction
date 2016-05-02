@@ -83,6 +83,23 @@ class JMethodDeclaration
         this.isPrivate = mods.contains("private");
     }
 
+
+    public JMethodDeclaration(int line, ArrayList<String> mods,
+        String name, Type returnType,
+        ArrayList<JFormalParameter> params, JBlock body)
+
+    {
+        super(line);
+        this.mods = mods;
+        this.name = name;
+        this.returnType = returnType;
+        this.params = params;
+        this.throwsIdentifiers = throwsIdentifiers;
+        this.body = body;
+        this.isAbstract = mods.contains("abstract");
+        this.isStatic = mods.contains("static");
+        this.isPrivate = mods.contains("private");
+    }
     /**
      * Declare this method in the parent (class) context.
      * 

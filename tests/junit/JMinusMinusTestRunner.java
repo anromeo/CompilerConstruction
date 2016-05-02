@@ -26,16 +26,16 @@ public class JMinusMinusTestRunner {
         // suite.addTestSuite(FloatLiteralTest.class);
         // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(DoubleLiteralTest.class);
-        suite.addTestSuite(AndAssignTest.class);
-        suite.addTestSuite(MinusAssignTest.class);
-        suite.addTestSuite(DivAssignTest.class);
-        suite.addTestSuite(MultAssignTest.class);
+        // suite.addTestSuite(AndAssignTest.class);
+        // suite.addTestSuite(MinusAssignTest.class);
+        // suite.addTestSuite(DivAssignTest.class);
+        // suite.addTestSuite(MultAssignTest.class);
         // GTE >=
-        suite.addTestSuite(ModulusTest.class);
-        suite.addTestSuite(ModAssignTest.class);
-        suite.addTestSuite(GreaterOrEqualTest.class);
-        suite.addTestSuite(NotEqualTest.class);
-        suite.addTestSuite(LessThanTest.class);
+        // suite.addTestSuite(ModulusTest.class);
+        // suite.addTestSuite(ModAssignTest.class);
+        // suite.addTestSuite(GreaterOrEqualTest.class);
+        // suite.addTestSuite(NotEqualTest.class);
+        // suite.addTestSuite(LessThanTest.class);
 
         // Parsed with No Codegen
         // suite.addTestSuite(OrTest.class);
@@ -70,7 +70,7 @@ public class JMinusMinusTestRunner {
         // suite.addTestSuite(ThrowsTest.class);
         // suite.addTestSuite(ShortTest.class);
         // suite.addTestSuite(LongTest.class);
-        // suite.addTestSuite(ForTest.class);
+//        suite.addTestSuite(ForTest.class);
         // suite.addTestSuite(DefaultTest.class);
         // suite.addTestSuite(BreakTest.class);
         // suite.addTestSuite(ThrowTest.class);
