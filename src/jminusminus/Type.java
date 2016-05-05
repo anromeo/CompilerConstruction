@@ -24,7 +24,7 @@ import java.util.Hashtable;
 
 class Type {
 
-    private static boolean arityVariable = false;
+    private boolean arityVariable = false;
 
     /** The Type's internal (Java) representation. * */
     private Class<?> classRep;
@@ -86,7 +86,7 @@ class Type {
         arityVariable = b;
     }
 
-    public static boolean isArityVariable() {
+    public boolean isArityVariable() {
         return arityVariable;
     }
 
@@ -386,29 +386,31 @@ class Type {
                 }
             }
             return true;
-        } else if (arityVariable) {
-            boolean returnValue = true;
-            int j = 0;
-            int lengthOfArgTypes2 = argTypes2.length;
-            for (int i = 0; i < argTypes1.length; i++) {
-                if (Type.isArityVariable()) {
-                    while (j < lengthOfArgTypes2 &&
-                        !Type.descriptorFor(argTypes1[i]).equals(
-                            Type.descriptorFor(argTypes2[j]))) {
-                        j++;
-                    }
-                } else {
-                    if (j < lengthOfArgTypes2 &&
-                        !Type.descriptorFor(argTypes1[i]).equals(
-                            Type.descriptorFor(argTypes2[j]))) {
-                        returnValue = false;
-                    }
-                }
-            }
-            return returnValue;
         }
+        // } else if (arityVariable) {
+        //     boolean returnValue = true;
+        //     int j = 0;
+        //     int lengthOfArgTypes2 = argTypes2.length;
+        //     for (int i = 0; i < argTypes1.length; i++) {
+        //         if (Type.isArityVariable()) {
+        //             while (j < lengthOfArgTypes2 &&
+        //                 !Type.descriptorFor(argTypes1[i]).equals(
+        //                     Type.descriptorFor(argTypes2[j]))) {
+        //                 j++;
+        //             }
+        //         } else {
+        //             if (j < lengthOfArgTypes2 &&
+        //                 !Type.descriptorFor(argTypes1[i]).equals(
+        //                     Type.descriptorFor(argTypes2[j]))) {
+        //                 returnValue = false;
+        //             }
+        //         }
+        //     }
+        //     return returnValue;
+        // }
         return false;
     }
+
 
     /**
      * Return the simple (unqualified) name for this Type. Eg, String in place
@@ -529,8 +531,12 @@ class Type {
 
     public Method methodFor(String name, Type[] argTypes) {
         Class[] classes = new Class[argTypes.length];
+        boolean foundArityVariable = false;
         for (int i = 0; i < argTypes.length; i++) {
             classes[i] = argTypes[i].classRep;
+            if (argTypes[i].isArityVariable()) {
+                foundArityVariable = true;
+            }
         }
         Class cls = classRep;
 
@@ -538,10 +544,16 @@ class Type {
         while (cls != null) {
             java.lang.reflect.Method[] methods = cls.getDeclaredMethods();
             for (java.lang.reflect.Method method : methods) {
-                if (method.getName().equals(name)
-                        && Type.argTypesMatch(classes, method
-                                .getParameterTypes())) {
-                    return new Method(method);
+                if (foundArityVariable) {
+                    if (method.getName().equals(name)) {
+                        return new Method(method);
+                    }
+                } else {
+                    if (method.getName().equals(name)
+                            && Type.argTypesMatch(classes, method
+                                    .getParameterTypes())) {
+                        return new Method(method);
+                    }
                 }
             }
             cls = cls.getSuperclass();
