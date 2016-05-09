@@ -64,6 +64,10 @@ class JCompilationUnit extends JAST {
     /** Whether a semantic error has been found. */
     private boolean isInError;
 
+    public String getFilename() {
+        return fileName;
+    }
+
     /**
      * Construct an AST node for a compilation unit given a file name, class
      * directory, line number, package name, list of imports, and type

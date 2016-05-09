@@ -196,6 +196,21 @@ class JClassDeclaration extends JAST implements JTypeDecl {
      */
 
     public JAST analyze(Context context) {
+        JCompilationUnit unit = compilationUnit;
+
+        String fileName = name + ".java";
+        String fullPath = this.compilationUnit.getFilename();
+        int lengthOfFileName = fileName.length();
+        int lengthOfFullPath = fullPath.length();
+        boolean doesClassEqualFileName = fullPath.indexOf(fileName) == (lengthOfFullPath - lengthOfFileName);
+        for(String modifier : mods) {
+            if (modifier.toLowerCase().equals("public") && !doesClassEqualFileName) {
+                JAST.compilationUnit.reportSemanticError(line,
+                        "Class must have matching file name if declared "
+                                + "public for Class %s", name);
+            }
+        }
+
         // Analyze all members
         for (JMember member : classBlock) {
             ((JAST) member).analyze(this.context);
