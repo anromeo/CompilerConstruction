@@ -1,22 +1,28 @@
 package pass;
 
 public class For {
-  public int testFor(int testInt) {
+  public int countWithFor(int testInt) {
       int j = 0;
       for (int i = 0; i < testInt; ++i) {
-          j = i + j;
-          // if (j == 10) {
-          //     break;
-          // }
+          j = j + 1;
       }
       return j;
   }
 
-  public int testFor(int[] ints) {
-      int sum = 0;
-      for (int i : ints) {
-          sum += i;
+  public int multiplyBy10(int testInt) {
+      int j = 0;
+      for (int i = testInt; i > 0; i--) {
+          j += 10;
       }
-      return sum;
+      return j;
   }
+
+  public int factorial(int testInt) {
+      int j = 0;
+      for (int i = 0; i <= testInt; ++i) {
+          j += i;
+      }
+      return j;
+  }
+
 }

@@ -73,13 +73,17 @@ class JAssignOp extends JAssignment {
             lhs = (JExpression) ((JLhs) lhs).analyzeLhs(context);
         }
         rhs = (JExpression) rhs.analyze(context);
-        rhs.type().mustMatchExpected(line(), lhs.type());
-        type = rhs.type();
-        if (lhs instanceof JVariable) {
-            IDefn defn = ((JVariable) lhs).iDefn();
-            if (defn != null) {
-                // Local variable; consider it to be initialized now.
-                ((LocalVariableDefn) defn).initialize();
+        if (rhs.type() != null) {
+            if (rhs.type() != Type.BOOLEAN) {
+                rhs.type().mustMatchExpected(line(), lhs.type());
+            }
+            type = rhs.type();
+            if (lhs instanceof JVariable) {
+                IDefn defn = ((JVariable) lhs).iDefn();
+                if (defn != null) {
+                    // Local variable; consider it to be initialized now.
+                    ((LocalVariableDefn) defn).initialize();
+                }
             }
         }
         return this;

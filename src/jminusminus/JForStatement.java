@@ -11,12 +11,13 @@ import static jminusminus.CLConstants.*;
 class JForStatement extends JStatement {
 
     private JStatement body;
-    private JVariableDeclarator variable;
+    private JVariableDeclaration variable;
     private JExpression condition;
-    private JExpression increment;
+    private JStatement increment;
     private String name;
     private boolean foreach = false;
 
+    private LocalContext context;
     /**
      * Construct an AST node for a while-statement given its line number, the
      * test expression, and the body.
@@ -28,7 +29,7 @@ class JForStatement extends JStatement {
      * @param body
      *            the body.
      */
-    public JForStatement(int line, JVariableDeclarator assignment, JExpression condition, JExpression increment, JStatement body) {
+    public JForStatement(int line, JVariableDeclaration assignment, JExpression condition, JStatement increment, JStatement body) {
         super(line);
         this.variable = assignment;
         this.condition = condition;
@@ -37,7 +38,7 @@ class JForStatement extends JStatement {
     }
 
 
-    public JForStatement(int line, JVariableDeclarator variable, String name, JStatement body) {
+    public JForStatement(int line, JVariableDeclaration variable, String name, JStatement body) {
         super(line);
         this.variable = variable;
         this.name = name;
@@ -54,11 +55,17 @@ class JForStatement extends JStatement {
      */
 
     public JForStatement analyze(Context context) {
-        // condition = condition.analyze(context);
-        // condition.type().mustMatchExpected(line(), Type.BOOLEAN);
-        // condition = condition.analyze(context);
-        // condition.type().mustMatchExpected(line(), Type.BOOLEAN);
-        // body = (JStatement) body.analyze(context);
+        if (!foreach) {
+            // body = (JStatement) body.analyze(context);
+            this.context = new LocalContext(context);
+
+            // ArrayList<JStatement> temp = new ArrayList<JStatement>();
+            this.variable = (JVariableDeclaration) variable.analyze(this.context);
+            this.condition = (JExpression) condition.analyze(this.context);
+            condition.type().mustMatchExpected(line(), Type.BOOLEAN);
+            this.increment = (JStatement) increment.analyze(this.context);
+            this.body = (JStatement) body.analyze(this.context);
+        }
         return this;
     }
 
@@ -72,25 +79,32 @@ class JForStatement extends JStatement {
 
     public void codegen(CLEmitter output) {
 
-        // Need two labels
-        // String test = output.createLabel();
-        // String out = output.createLabel();
 
-        // variable.codegen(output);
-        // // Branch out of the loop on the test condition
-        // // being false
-        // output.addLabel(test);
-        // condition.codegen(output, out, false);
+        // Need three labels
+        String executeDo = output.createLabel();
+        String test = output.createLabel();
+        String out = output.createLabel();
 
-        // // Codegen body
-        // body.codegen(output);
-        // increment.codegen(output);
+        // Add variable for testing
+        variable.codegen(output);
 
-        // // Unconditional jump back up to test
-        // output.addBranchInstruction(GOTO, test);
+        // // If the first test fails, jump to the end of the statement
+        condition.codegen(output, out, false);
+        output.addBranchInstruction(GOTO, executeDo);
 
-        // // The label below and outside the loop
-        // output.addLabel(out);
+        // Add label for the body
+        output.addLabel(executeDo);
+        // Add the codegen body to be processed
+        body.codegen(output);
+        
+        // Increment the variable
+        increment.codegen(output);
+
+        // Retest Condition
+        condition.codegen(output, executeDo, true);
+        output.addBranchInstruction(GOTO, out);
+        output.addLabel(out);
+
     }
 
     /**

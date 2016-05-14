@@ -188,6 +188,10 @@ public class Parser {
             scanner.returnToPosition();
             return false;
         }
+        if (see(IDENTIFIER)) {
+            scanner.returnToPosition();
+            return false;            
+        }
         if (seeBasicType()) {
             scanner.returnToPosition();
             return true;
@@ -267,6 +271,7 @@ public class Parser {
         scanner.returnToPosition();
         return true;
     }
+
 
     /**
      * Are we looking at a basic type? ie.
@@ -668,15 +673,20 @@ public class Parser {
             return new JWhileStatement(line, test, statement);
         } else if (have(DO)) {
         	JStatement statement = statement();
-        	mustBe(UNTIL);
-        	JExpression test = parExpression();
-            return new JDoUntilStatement(line, test, statement);
+        	if (have(UNTIL)) {
+                mustBe(UNTIL);
+        	    JExpression test = parExpression();
+                return new JDoUntilStatement(line, test, statement);
+            } else {
+                mustBe(WHILE);
+                JExpression test = parExpression();
+                return new JDoWhileStatement(line, test, statement);                
+            }
         }else if (have(SWITCH)) {
           	return new JSwitchStatement(line, parExpression(), switchBlockStatementGroup());
         } else if (have(FOR)) {
             mustBe(LPAREN);
-            Type type = type();
-            JVariableDeclarator variable = variableDeclarator(type);
+            JVariableDeclaration variable = localVariableDeclarationStatement();
             if(have(COLON)) {
                 mustBe(IDENTIFIER);
                 String name = scanner.previousToken().image();
@@ -684,15 +694,9 @@ public class Parser {
                 JStatement statement = block();
                 return new JForStatement(line, variable, name, statement);
             } else {
-                mustBe(SEMI);
                 JExpression conditional = expression();
                 mustBe(SEMI);
-                JExpression increment;
-                if (see(INC) || see(DEC)) {
-                    increment = expression();
-                } else {
-                    increment = postfixExpression();
-                }
+                JStatement increment = statementExpression();
                 mustBe(RPAREN);
                 JStatement statement = block();
                 return new JForStatement(line, variable, conditional, increment, statement);
@@ -1139,7 +1143,6 @@ public class Parser {
      * 
      * @return an AST for an assignmentExpression.
      */
-
     private JExpression assignmentExpression() {
         int line = scanner.token().line();
         JExpression lhs = conditionalAndExpression();
@@ -1147,7 +1150,7 @@ public class Parser {
             return new JAssignOp(line, lhs, assignmentExpression());
         } else if (have(PLUS_ASSIGN)) {
             return new JPlusAssignOp(line, lhs, assignmentExpression());
-        } else if (have(TERNARY)){
+        } else if (have(TERNARY)) {
         	JExpression condition = lhs;
         	JExpression thenPart = assignmentExpression();
         	mustBe(COLON);        	       	

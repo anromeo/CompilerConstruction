@@ -16,6 +16,9 @@ public class JMinusMinusTestRunner {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
+        suite.addTestSuite(DoWhileTest.class);
+        suite.addTestSuite(ForTest.class);
+        suite.addTestSuite(TernaryTest.class);
         // suite.addTestSuite(HelloWorldTest.class);
         // suite.addTestSuite(FactorialTest.class);
         // suite.addTestSuite(GCDTest.class);
@@ -26,15 +29,15 @@ public class JMinusMinusTestRunner {
         // suite.addTestSuite(FloatLiteralTest.class);
         // suite.addTestSuite(FloatTest.class);
         // suite.addTestSuite(DoubleLiteralTest.class);
-        suite.addTestSuite(AndAssignTest.class);
-        suite.addTestSuite(MinusAssignTest.class);
-        suite.addTestSuite(DivAssignTest.class);
-        suite.addTestSuite(MultAssignTest.class);
-        suite.addTestSuite(ModulusTest.class);
-        suite.addTestSuite(ModAssignTest.class);
-        suite.addTestSuite(GreaterOrEqualTest.class);
-        suite.addTestSuite(NotEqualTest.class);
-        suite.addTestSuite(LessThanTest.class);
+        // suite.addTestSuite(AndAssignTest.class);
+        // suite.addTestSuite(MinusAssignTest.class);
+        // suite.addTestSuite(DivAssignTest.class);
+        // suite.addTestSuite(MultAssignTest.class);
+        // suite.addTestSuite(ModulusTest.class);
+        // suite.addTestSuite(ModAssignTest.class);
+        // suite.addTestSuite(GreaterOrEqualTest.class);
+        // suite.addTestSuite(NotEqualTest.class);
+        // suite.addTestSuite(LessThanTest.class);
 
         // Parsed with No Codegen
         // suite.addTestSuite(OrTest.class);

@@ -110,6 +110,7 @@ class JEqualOp extends JBooleanBinaryExpression {
     public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
         lhs.codegen(output);
         rhs.codegen(output);
+        System.out.println(lhs);
         if (lhs.type().isReference()) {
             output.addBranchInstruction(onTrue ? IF_ACMPEQ : IF_ACMPNE,
                     targetLabel);
