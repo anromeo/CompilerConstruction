@@ -32,7 +32,7 @@ public class JTernaryExpression extends JExpression{
 
 	 public JTernaryExpression(int line, JExpression condition, JExpression thenPart,
 			 JExpression elsePart) {
-	     super(line);
+	     super(line);	     
 	     this.condition = condition;
 	     this.thenPart = thenPart;
 	     this.elsePart = elsePart;

@@ -427,7 +427,7 @@ class Scanner {
                     return new TokenInfo(ELLIPSE, line);
                 }
             }
-            nextCh();
+            //nextCh();
             return new TokenInfo(DOT, line);
         case EOFCH:
             return new TokenInfo(EOF, line);

@@ -51,35 +51,13 @@ class JLiteralLong extends JExpression {
 
     public void codegen(CLEmitter output) {
         Long i = Long.parseLong(text);
-
-//        switch (i) {
-//        case 0:
-//            output.addNoArgInstruction(ICONST_0);
-//            break;
-//        case 1:
-//            output.addNoArgInstruction(ICONST_1);
-//            break;
-//        case 2:
-//            output.addNoArgInstruction(ICONST_2);
-//            break;
-//        case 3:
-//            output.addNoArgInstruction(ICONST_3);
-//            break;
-//        case 4:
-//            output.addNoArgInstruction(ICONST_4);
-//            break;
-//        case 5:
-//            output.addNoArgInstruction(ICONST_5);
-//            break;
-//        default:
-//            if (i >= 6 && i <= 127) {
-//                //output.addOneArgInstruction(BIPUSH, i);
-//            } else if (i >= 128 && i <= 32767) {
-//                //output.addOneArgInstruction(SIPUSH, i);
-//            } else {
-//               // output.addLDCInstruction(i);
-//            }
-//        }
+        if (i == 0L){
+        	output.addNoArgInstruction(LCONST_0);
+        } else if (i == 1L) {
+        	output.addNoArgInstruction(LCONST_1);
+        } else {
+        	output.addLDCInstruction(i);
+        }
     }
 
     /**

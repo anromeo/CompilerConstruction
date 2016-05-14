@@ -31,6 +31,7 @@ abstract class JExpression extends JStatement {
         isStatementExpression = false; // by default
     }
 
+
     /**
      * Return the expression type.
      * 
@@ -49,6 +50,10 @@ abstract class JExpression extends JStatement {
 
     public boolean isStatementExpression() {
         return isStatementExpression;
+    }
+    
+    public void SetIsStatementExpression(boolean theIsStatementExpression) {
+        isStatementExpression = theIsStatementExpression;
     }
 
     /**
