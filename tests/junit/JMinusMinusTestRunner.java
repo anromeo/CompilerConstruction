@@ -18,7 +18,8 @@ public class JMinusMinusTestRunner {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(DoWhileTest.class);
         suite.addTestSuite(ForTest.class);
-        //suite.addTestSuite(TernaryTest.class);
+        suite.addTestSuite(TernaryTest.class);
+        suite.addTestSuite(OrTest.class);
         // suite.addTestSuite(HelloWorldTest.class);
         // suite.addTestSuite(FactorialTest.class);
         // suite.addTestSuite(GCDTest.class);

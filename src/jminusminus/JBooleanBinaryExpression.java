@@ -302,19 +302,48 @@ class JLogicalOrOp extends JBooleanBinaryExpression {
         return this;
     }
 
+    /**
+     * The semantics of j-- require that we implement short-circuiting branching
+     * in implementing the logical AND.
+     * 
+     * @param output
+     *            the code emitter (basically an abstraction for producing the
+     *            .class file).
+     * @param targetLabel
+     *            target for generated branch instruction.
+     * @param onTrue
+     *            should we branch on true?
+     */
+
+    // public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+    //     if (onTrue) {
+    //         String falseLabel = output.createLabel();
+    //         lhs.codegen(output, falseLabel, false);
+    //         rhs.codegen(output, targetLabel, true);
+    //         output.addLabel(falseLabel);
+    //     } else {
+    //         lhs.codegen(output, targetLabel, false);
+    //         rhs.codegen(output, targetLabel, false);
+    //     }
+    // }
     public void codegen(CLEmitter output, String targetLabel, boolean onTrue) {
+        System.out.println(onTrue);
         // if (onTrue) {
         //     // Creates label for if we move to false
-        //     String falseLabel = output.createLabel();
-        //     lhs.codegen(output, falseLabel, true); // if false GOTO falseLabel
-        //     rhs.codegen(output, targetLabel, false); // if true GOTO trueLabel
-        //     output.addLabel(falseLabel); // Add falseLabel
+            String falseLabel = output.createLabel();
+            // lhs.codegen(output, targetLabel, false); // if false GOTO falseLabel
+            // rhs.codegen(output, targetLabel, true); // if true GOTO trueLabel
+
+
+            // output.addLabel(falseLabel); // Add falseLabel
         // } else {
-        //     lhs.codegen(output);
-        //     rhs.codegen(output);
-            lhs.codegen(output);
-            rhs.codegen(output);
-            output.addNoArgInstruction(LOR);
+        //     // Creates label for if we move to false
+        //     String falseLabel = output.createLabel();
+            lhs.codegen(output, targetLabel, false); // if false GOTO falseLabel
+            rhs.codegen(output, targetLabel, false);
+            // rhs.codegen(output, targetLabel, false); // if true GOTO trueLabel
+            output.addLabel(falseLabel); // Add falseLabel
+
         // }
     }
 
