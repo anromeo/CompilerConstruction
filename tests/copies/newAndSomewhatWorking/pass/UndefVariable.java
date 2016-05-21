@@ -9,5 +9,8 @@ public class UndefVariable {
 		b = 500 + a;
 		b = 200;
 		b = 300 / 3; 	
+		c = 5;
+		c = 34;
+		c = "happy";
 	}
 }

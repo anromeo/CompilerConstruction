@@ -51,7 +51,18 @@ class JLiteralInt extends JExpression {
      */
 
     public void codegen(CLEmitter output) {
-        int i = Integer.parseInt(text);
+    	int radix = 10;
+    	if (text == "0") {
+    		radix = 10;
+    	} else if (text.charAt(0) == '0') {
+    		if (text.charAt(1) == 'x' || text.charAt(1) == 'X') {
+    			radix = 16;
+    			text = text.substring(2);
+    		} else {
+    			radix = 8;
+    		}
+    	}
+        int i = Integer.parseInt(text, radix);
         switch (i) {
         case 0:
             output.addNoArgInstruction(ICONST_0);
