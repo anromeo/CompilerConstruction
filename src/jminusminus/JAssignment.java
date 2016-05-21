@@ -160,6 +160,9 @@ class JPlusAssignOp extends JAssignment {
         } else if (lhs.type().equals(Type.STRING)) {
             rhs = (new JStringConcatenationOp(line, lhs, rhs)).analyze(context);
             type = Type.STRING;
+        } else if (lhs.type().equals(Type.LONG)) {
+            rhs.type().mustMatchExpected(line(), Type.LONG);
+            type = Type.LONG;
         } else {
             JAST.compilationUnit.reportSemanticError(line(),
                     "Invalid lhs type for +=: " + lhs.type());
@@ -182,6 +185,10 @@ class JPlusAssignOp extends JAssignment {
         ((JLhs) lhs).codegenLoadLhsLvalue(output);
         if (lhs.type().equals(Type.STRING)) {
             rhs.codegen(output);
+        } else if (lhs.type().equals(Type.LONG)) {
+            ((JLhs) lhs).codegenLoadLhsRvalue(output);
+            rhs.codegen(output);
+            output.addNoArgInstruction(LADD);
         } else {
             ((JLhs) lhs).codegenLoadLhsRvalue(output);
             rhs.codegen(output);

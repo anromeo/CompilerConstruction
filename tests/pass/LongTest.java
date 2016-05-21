@@ -1,14 +1,14 @@
 import java.lang.System;
 import java.lang.Long;
 
-public class Start {
+public class LongTest {
 	
 	public static void main(String[] args) {
-		int theInt1 = 9;
+//		int theInt1 = 9;
 //		int theInt2 = 020;
 //		int theInt3 = 0x30;
-		System.out.print("int: ");
-		System.out.print(theInt1);
+//		System.out.print("int: ");
+//		System.out.print(theInt1);
 //		System.out.println();
 //		System.out.print(theInt2);
 //		System.out.println();
@@ -22,7 +22,7 @@ public class Start {
 //		long theLong6 = Long.parseLong("30", 16);
 		
 		System.out.print("theLong1: ");
-//		System.out.print(theLong1);
+		System.out.print(theLong1);
 //		System.out.print("theLong2: ");
 //		System.out.print(theLong2);		
 //		System.out.print("theLong3: ");
