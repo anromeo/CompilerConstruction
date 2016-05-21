@@ -419,16 +419,55 @@ class Scanner {
             }
             return new TokenInfo(STRING_LITERAL, buffer.toString(), line);
         case '.':
-            nextCh();
-            if (ch == '.') {
+        	buffer = new StringBuffer();
+        	buffer.append(ch);
+        	nextCh();
+        	if (ch == '.') {
                 nextCh();
                 if (ch == '.') {
                     nextCh();
                     return new TokenInfo(ELLIPSE, line);
                 }
             }
-            //nextCh();
-            return new TokenInfo(DOT, line);
+        	while (isDigit(ch)) {
+                 buffer.append(ch);
+                 nextCh();
+            }
+        	//String a = buffer.toString();
+        	//boolean b = a.equals(".");
+        	//boolean c = (a == ".");	
+        	if (buffer.toString().equals(".")) {
+                return new TokenInfo(DOT, line);
+        	} else if (ch == 'f' || ch == 'F') {
+				nextCh();
+				return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+			} else if (ch == 'e' || ch == 'E') {
+            	buffer.append(ch);
+                nextCh();
+                if (ch == '-' || ch == '+') {
+                	buffer.append(ch);
+                    nextCh();
+                }
+                while (isDigit(ch)) {
+                    buffer.append(ch);
+                    nextCh();
+                }
+                if (ch == 'f' || ch == 'F') {
+                	nextCh();
+                	return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+                } else {
+                	if (ch == 'd' || ch == 'D') {
+	            		nextCh();
+	        		}
+                	return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+                }
+            } else {
+        		if (ch == 'd' || ch == 'D') {
+            		nextCh();
+        		}
+        		 //default to double if there is a '.'
+        		return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+        	}  
         case EOFCH:
             return new TokenInfo(EOF, line);
         case '0':
@@ -445,38 +484,189 @@ class Scanner {
         case '7':
         case '8':
         case '9':
-            buffer = new StringBuffer();
-            int numberOfDots = 0;
-            boolean endingSymbolTriggered = false;
-            char endingSymbol = '!';
-            while (isDigit(ch) || ch == '.' || ch == 'D' || ch == 'd' || ch == 'F' || ch == 'f') {
-                if (ch == '.') {
-                    numberOfDots++;
-                }
-                if (endingSymbolTriggered || numberOfDots > 1) {
-                    reportScannerError("Unidentified input number: '%s'", buffer.toString());
-                    nextCh();
-                    return getNextToken();
-                } else if (ch == 'D' || ch == 'd' || ch == 'F' || ch == 'f' || ch == 'l' || ch == 'L') {
-                    endingSymbolTriggered = true;
-                    endingSymbol = ch;
-
-                }
+//            buffer = new StringBuffer();
+//            int numberOfDots = 0;
+//            boolean endingSymbolTriggered = false;
+//            char endingSymbol = '!';
+//            while (isDigit(ch) || ch == '.' || ch == 'D' || ch == 'd' || ch == 'F' || ch == 'f') {
+//                if (ch == '.') {
+//                    numberOfDots++;
+//                }
+//                if (endingSymbolTriggered || numberOfDots > 1) {
+//                    reportScannerError("Unidentified input number: '%s'", buffer.toString());
+//                    nextCh();
+//                    return getNextToken();
+//                } else if (ch == 'D' || ch == 'd' || ch == 'F' || ch == 'f' || ch == 'l' || ch == 'L') {
+//                    endingSymbolTriggered = true;
+//                    endingSymbol = ch;
+//
+//                }
+//                buffer.append(ch);
+//                nextCh();
+//            }
+//            if (endingSymbol != '!') {
+//                if (endingSymbol == 'l' || endingSymbol == 'L') {
+//                    return new TokenInfo(LONG_LITERAL, buffer.toString(), line);
+//                } else if (endingSymbol == 'f' || endingSymbol == 'F') {
+//                    return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+//                } else {
+//                    return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+//                }
+//            } else if (numberOfDots > 0) {
+//                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);                
+//            }
+//            return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+//        default:
+//            if (isIdentifierStart(ch)) {
+//                buffer = new StringBuffer();
+//                while (isIdentifierPart(ch)) {
+//                    buffer.append(ch);
+//                    nextCh();
+//                }
+//                String identifier = buffer.toString();
+//                if (reserved.containsKey(identifier)) {
+//                    return new TokenInfo(reserved.get(identifier), line);
+//                } else {
+//                    return new TokenInfo(IDENTIFIER, identifier, line);
+//                }
+//            } else {
+//                reportScannerError("Unidentified input token: '%c'", ch);
+//                nextCh();
+//                return getNextToken();
+//            }
+        	/*https://docs.oracle.com/javase/specs/jls/se8/html/jls-3.html#jls-3.10
+        	 * For decimal floating-point literals, at least one digit (in either 
+        	 * the whole number or the fraction part) and either a decimal point, 
+        	 * an exponent, or a float type suffix are required. All other parts are optional. 
+        	 * The exponent, if present, is indicated by the ASCII letter e or E followed by 
+        	 * an optionally signed integer. 
+        	 */
+        	buffer = new StringBuffer();
+            while (isDigit(ch)) {
                 buffer.append(ch);
                 nextCh();
             }
-            if (endingSymbol != '!') {
-                if (endingSymbol == 'l' || endingSymbol == 'L') {
-                    return new TokenInfo(LONG_LITERAL, buffer.toString(), line);
-                } else if (endingSymbol == 'f' || endingSymbol == 'F') {
-                    return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
-                } else {
-                    return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            if (ch == '.') {
+            	buffer.append(ch);
+            	nextCh();
+            	while (isDigit(ch)) {
+                     buffer.append(ch);
+                     nextCh();
                 }
-            } else if (numberOfDots > 0) {
-                return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);                
+				if (ch == 'f' || ch == 'F') {
+					nextCh();
+					return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+				} else if (ch == 'e' || ch == 'E') {
+	            	buffer.append(ch);
+	                nextCh();
+	                if (ch == '-' || ch == '+') {
+	                	buffer.append(ch);
+	                    nextCh();
+	                }
+	                while (isDigit(ch)) {
+	                    buffer.append(ch);
+	                    nextCh();
+	                }
+	                if (ch == 'f' || ch == 'F') {
+	                	nextCh();
+	                	return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+	                } else {
+	                	if (ch == 'd' || ch == 'D') {
+		            		nextCh();
+		        		}
+	                	return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+	                }
+                } else {
+	        		if (ch == 'd' || ch == 'D') {
+	            		nextCh();
+	        		}
+	        		 //default to double if there is a '.'
+	        		return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            	}                
+            } else if (ch == 'f' || ch == 'F') {
+            	buffer.append(ch);
+            	nextCh();
+            	return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+            } else if (ch == 'd' || ch == 'D') {
+            	buffer.append(ch);
+            	nextCh();
+            	return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+            } else if (ch == 'l' || ch == 'L') {
+            	nextCh();
+            	return new TokenInfo(LONG_LITERAL, buffer.toString(), line);
+            } else if (ch == 'e' || ch == 'E') {
+            	buffer.append(ch);
+                nextCh();
+                if (ch == '-' || ch == '+') {
+                	buffer.append(ch);
+                    nextCh();
+                }
+                while (isDigit(ch)) {
+                    buffer.append(ch);
+                    nextCh();
+                }
+                if (ch == 'f' || ch == 'F') {
+                	buffer.append(ch);
+                	nextCh();
+                	return new TokenInfo(FLOAT_LITERAL, buffer.toString(), line);
+                } else {
+	        		if (ch == 'd' || ch == 'D') {
+	        			buffer.append(ch);
+	            		nextCh();
+	        		}
+                	return new TokenInfo(DOUBLE_LITERAL, buffer.toString(), line);
+                }
+            } else if (ch == 'x' || ch == 'X') {
+            	if (buffer.toString().equals("0")) {
+            		buffer.append(ch);
+            		nextCh();
+                	//check that the next digit is a valid hex digit
+                	if (isHexDigit(ch)) {
+                        buffer.append(ch);
+                        nextCh();
+                	}else{
+                		//"0x" plus something that isn't a hex digit
+    	                reportScannerError("A hex number must have at least one valid hex character after the \"0x\"");
+                	}
+                	while (isHexDigit(ch)) {
+                        buffer.append(ch);
+                        nextCh();
+                    }
+                	if (ch == 'l'|| ch=='L') {
+                		nextCh();
+                        return new TokenInfo(LONG_LITERAL, buffer.toString(), line);
+                		//reportScannerError("Hex Longs not yet implemented", buffer.toString());
+                	} else {
+                		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+                	}              	
+            	} else {
+            		//for cases where the 'x' is not right after the first digit '0'
+            		 reportScannerError("Invalid digit 'x' found in number. %s", buffer.toString());
+            	}            	
+            } else {
+            	//number in buffer is followed by a non digit but not an x
+            	if (buffer.toString().equals("0")) {
+            		//'0' is a valid integer
+            		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+            	} 
+            	if (buffer.toString().charAt(0) != '0') {
+            		//an integer must not start with '0' unless it = '0'
+            		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+	            } else {
+	            	//check for octal
+	            	if (checkForOctal(buffer.toString())) {
+	            		if (ch == 'l'|| ch=='L') {
+	                		reportScannerError("Octal Longs not yet implemented", buffer.toString());
+	                	} else {
+	                		//reportScannerError("Octal2 Longs not yet implemented", buffer.toString());
+	                		return new TokenInfo(INT_LITERAL, buffer.toString(), line);
+	                	}      	            		
+	            	} else {
+		                reportScannerError("An integer must not start with '0' unless it is only '0' or an Octal or Hex number");
+		                nextCh();
+	            	}
+	            }
             }
-            return new TokenInfo(INT_LITERAL, buffer.toString(), line);
         default:
             if (isIdentifierStart(ch)) {
                 buffer = new StringBuffer();
@@ -578,6 +768,36 @@ class Scanner {
 
     private boolean isDigit(char c) {
         return (c >= '0' && c <= '9');
+    }
+    
+    /**
+     * Return true if the specified string is all octal digits (0-7); false otherwise.
+     * 
+     * @param s
+     *            string.
+     * @return true or false.
+     */
+
+    private boolean checkForOctal(String s) {
+    	boolean answer = true;
+    	for (char c : s.toCharArray()) {
+    		if ((c < '0' || c > '7')) {
+    			answer = false;
+    		}
+    	}
+        return answer;
+    }
+    
+    /**
+     * Return true if the specified character is a hexdigit (0-9)|(a-f)|(A-F); false otherwise.
+     * 
+     * @param c
+     *            character.
+     * @return true or false.
+     */
+
+    private boolean isHexDigit(char c) {
+        return ((c >= '0' && c <= '9')||(c >= 'a' && c <= 'f')||(c >= 'A' && c <= 'F'));
     }
 
     /**
