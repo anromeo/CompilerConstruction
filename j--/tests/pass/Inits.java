@@ -11,12 +11,12 @@ public class Inits {
     int[][] ia = { { 1, 2, 3 }, { 4, i, 6 }, null };
 
     public static void main(String[] args) {
-        Inits obj = new Inits();
-        System.out.println(obj.i);
-        System.out.println(obj.ia[0][0]);
-        System.out.println(obj.ia[1][1]);
-        System.out.println(obj.ia[1][2]);
-        System.out.println((Object) obj.ia[2]);
+        // Inits obj = new Inits();
+        // System.out.println(obj.i);
+        // System.out.println(obj.ia[0][0]);
+        // System.out.println(obj.ia[1][1]);
+        // System.out.println(obj.ia[1][2]);
+        // System.out.println((Object) obj.ia[2]);
     }
 
 }

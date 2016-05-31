@@ -1,4 +1,7 @@
+package  pass;
+
 import java.lang.System;
+
 
 //this doesn't pass tests but it passed the run up to parser
 public class LongMaker {
@@ -8,11 +11,8 @@ public class LongMaker {
 //	}
 	
     public static void main(String[] args) {
-		long theLong = 12L;
-		//int theLong = 42;
-    	//String theLong = "stinky";
-		//String theString = theLong;
-		//System.out.println("happy");
+		//long theLong = 0x300000000;
+				int theLong = 2;
 		System.out.println(theLong);
 	}
 }

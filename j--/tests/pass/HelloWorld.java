@@ -7,10 +7,10 @@ import java.lang.System;
 public class HelloWorld {
 
     public static String message() {
-        return "Hello, WorldD!";
+        return "Hello, World!";
     }
 
-    public static void main(String[] args) {
+    public static void Main(String[] args) {
         System.out.println(HelloWorld.message());
     }
 
